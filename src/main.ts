@@ -114,7 +114,7 @@ export async function run(): Promise<void> {
 
     doc.appendChild(gma3)
 
-    const xml = xmlFormat(new XMLSerializer().serializeToString(doc)).toString()
+    const xml = xmlFormat(new XMLSerializer().serializeToString(doc))
 
     core.debug(`Generated XML file:\n${xml}`)
 
