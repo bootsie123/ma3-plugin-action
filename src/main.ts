@@ -52,7 +52,7 @@ export async function run(): Promise<void> {
       if (err instanceof Error) {
         msg += err.message
       } else {
-        msg += err
+        msg += err as string
       }
 
       throw new Error(msg)
@@ -89,7 +89,7 @@ export async function run(): Promise<void> {
         if (err instanceof Error) {
           msg += err.message
         } else {
-          msg += err
+          msg += err as string
         }
 
         throw new Error(msg)
