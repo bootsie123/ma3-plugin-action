@@ -101,7 +101,7 @@ describe('action', () => {
 
     expect(debugMock).toHaveBeenNthCalledWith(
       2,
-      `Generated XML file:\n${outputXml}`
+      `Generated XML file:\n${outputXml.replaceAll('\r\n', '\n')}`
     )
 
     expect(debugMock).toHaveBeenNthCalledWith(

@@ -6,7 +6,7 @@ import { DOMParser, XMLSerializer } from '@xmldom/xmldom'
 import xmlFormat from 'xml-formatter'
 
 const MA3_DATA_VERSION = '2.0.0.4'
-const BLOCK_SIZE = 1003
+const BLOCK_SIZE = 1024
 
 /**
  * Outlines expected user input on MA3 plugins
@@ -96,7 +96,7 @@ export async function run(): Promise<void> {
       }
 
       for (let i = 0; i < file.length; i += BLOCK_SIZE) {
-        const block = file.substring(i, i + BLOCK_SIZE + 1)
+        const block = file.substring(i, i + BLOCK_SIZE)
 
         const blockEl = doc.createElement('Block')
 
@@ -114,7 +114,9 @@ export async function run(): Promise<void> {
 
     doc.appendChild(gma3)
 
-    const xml = xmlFormat(new XMLSerializer().serializeToString(doc))
+    const xml = xmlFormat(new XMLSerializer().serializeToString(doc), {
+      lineSeparator: '\n'
+    })
 
     core.debug(`Generated XML file:\n${xml}`)
 

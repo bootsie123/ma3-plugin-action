@@ -1,21 +1,21 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "ma3-plugin-action",
+  "description": "Auto generates the necessary XML files for grandMA3 plugins",
+  "version": "0.0.1",
+  "author": "bootsie123",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/bootsie123/ma3-plugin-action",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/bootsie123/ma3-plugin-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/bootsie123/ma3-plugin-action/issues"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "ma3"
   ],
   "exports": {
     ".": "./dist/index.js"
