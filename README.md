@@ -12,8 +12,8 @@ A GitHub Action which auto generates XML files for grandMA3 plugins.
 ```yaml
 - uses: bootsie123/ma3-plugin-action@v1
   with:
-    # Species the information on each plugin to include in the XML file. Plugin 1 outlines
-    # the required keys while Plugin 2 shows all possible keys
+    # Species the information on each plugin to include in the XML file. Plugin
+    # 1 outlines the required keys while Plugin 2 shows all possible keys
     #
     # name [required]: The name of the plugin
     # version [required]: The version of the plugin
