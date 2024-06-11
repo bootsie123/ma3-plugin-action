@@ -1,24 +1,20 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-
-# Add your action's branding here. This will appear on the GitHub Marketplace.
+name: 'MA3 Plugin Release'
+description: 'Auto generates the necessary XML files for grandMA3 plugins'
+author: 'bootsie123'
 branding:
-  icon: 'heart'
+  icon: 'package'
   color: 'red'
-
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  plugins:
+    description:
+      'An object defining the necessary data for each MA3 plugin being packaged'
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
-
+  outputFile:
+    description: 'The name of the XML file to save to'
+    required: true
+  generateArtifact:
+    description: 'True if an artifact should be generated, false if otherwise'
+    required: false
 runs:
   using: node20
   main: dist/index.js

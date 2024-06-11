@@ -7,20 +7,18 @@
  */
 
 import * as core from '@actions/core'
+import fs from 'fs'
+
 import * as main from '../src/main'
 
 // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
-
-// Other utilities
-const timeRegex = /^\d{2}:\d{2}:\d{2}/
 
 // Mock the GitHub Actions core library
 let debugMock: jest.SpiedFunction<typeof core.debug>
 let errorMock: jest.SpiedFunction<typeof core.error>
 let getInputMock: jest.SpiedFunction<typeof core.getInput>
 let setFailedMock: jest.SpiedFunction<typeof core.setFailed>
-let setOutputMock: jest.SpiedFunction<typeof core.setOutput>
 
 describe('action', () => {
   beforeEach(() => {
@@ -30,60 +28,139 @@ describe('action', () => {
     errorMock = jest.spyOn(core, 'error').mockImplementation()
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
     setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
-    setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
   })
 
-  it('sets the time output', async () => {
-    // Set the action's inputs as return values from core.getInput()
+  const inputPlugin = `[
+    {
+      "name": "Test Plugin",
+      "version": "1.0.0",
+      "path": "__tests__/test-plugin.lua",
+      "pluginGuid": "C3 13 5E E5 B6 B5 10 02 15 9F 34 2F 14 B7 E5 8B",
+      "luaGuid": "C3 13 5E E5 81 D3 10 02 EB 89 05 59 8F 53 BF 8B"
+    }
+  ]
+  `
+  const inputOutputFile = '__tests__/test-plugin.xml.test'
+  const input_generateArtifact = 'false'
+
+  it('parses input', async () => {
     getInputMock.mockImplementation(name => {
       switch (name) {
-        case 'milliseconds':
-          return '500'
+        case 'plugins':
+          return inputPlugin
+        case 'outputFile':
+          return inputOutputFile
+        case 'generateArtifact':
+          return input_generateArtifact
         default:
           return ''
       }
     })
 
     await main.run()
+
     expect(runMock).toHaveReturned()
 
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
     expect(debugMock).toHaveBeenNthCalledWith(
-      2,
-      expect.stringMatching(timeRegex)
+      1,
+      `Received input: ${inputPlugin}`
     )
+
     expect(debugMock).toHaveBeenNthCalledWith(
       3,
-      expect.stringMatching(timeRegex)
+      `Saving to "${inputOutputFile}"...`
     )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
+
+    expect(debugMock).not.toHaveBeenNthCalledWith(
+      4,
+      `Uploading file as artifact...`
     )
+
     expect(errorMock).not.toHaveBeenCalled()
   })
 
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
+  it('generates correct xml', async () => {
     getInputMock.mockImplementation(name => {
       switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
+        case 'plugins':
+          return inputPlugin
+        case 'outputFile':
+          return inputOutputFile
+        case 'generateArtifact':
+          return input_generateArtifact
         default:
           return ''
       }
     })
 
     await main.run()
+
     expect(runMock).toHaveReturned()
 
-    // Verify that all of the core library functions were called correctly
+    const outputXml = fs.readFileSync('__tests__/test-plugin.xml', 'utf8')
+
+    expect(debugMock).toHaveBeenNthCalledWith(
+      2,
+      `Generated XML file:\n${outputXml}`
+    )
+
+    expect(debugMock).toHaveBeenNthCalledWith(
+      3,
+      `Saving to "${inputOutputFile}"...`
+    )
+
+    expect(errorMock).not.toHaveBeenCalled()
+  })
+
+  it('sets a failed status - invalid JSON', async () => {
+    getInputMock.mockImplementation(name => {
+      switch (name) {
+        case 'plugins':
+          return 'invalid json'
+        default:
+          return ''
+      }
+    })
+
+    await main.run()
+
+    expect(runMock).toHaveReturned()
+
     expect(setFailedMock).toHaveBeenNthCalledWith(
       1,
-      'milliseconds not a number'
+      `The value of "plugins" is not valid JSON: Unexpected token 'i', "invalid json" is not valid JSON`
     )
+
+    expect(errorMock).not.toHaveBeenCalled()
+  })
+
+  it('sets a failed status - invalid lua file', async () => {
+    const invalidFile = '__tests__/invalid-file.lua'
+
+    getInputMock.mockImplementation(name => {
+      switch (name) {
+        case 'plugins':
+          return `[
+            {
+              "name": "Test Plugin",
+              "path": "${invalidFile}"
+            }
+          ]
+          `
+        default:
+          return ''
+      }
+    })
+
+    await main.run()
+
+    expect(runMock).toHaveReturned()
+
+    expect(setFailedMock).toHaveBeenNthCalledWith(
+      1,
+      `Unable to read lua file "${invalidFile}": Error: ENOENT: no such file or directory, open '${invalidFile}'`
+    )
+
     expect(errorMock).not.toHaveBeenCalled()
   })
 })

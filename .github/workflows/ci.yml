@@ -57,8 +57,12 @@ jobs:
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
-
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+          plugins: >-
+            [
+              {
+                "name": "Test Plugin",
+                "version": "1.0.0",
+                "path": "__tests__/test-plugin.lua"
+              }
+            ]
+          outputFile: __tests__/test-plugin.xml.test

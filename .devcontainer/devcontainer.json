@@ -1,7 +1,7 @@
 {
   "name": "GitHub Actions (TypeScript)",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
   "customizations": {
     "codespaces": {
       "openFiles": ["README.md"]
@@ -12,8 +12,6 @@
         "davidanson.vscode-markdownlint",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "github.copilot",
-        "github.copilot-chat",
         "github.vscode-github-actions",
         "github.vscode-pull-request-github",
         "me-dutour-mathieu.vscode-github-actions",
@@ -36,6 +34,7 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers-contrib/features/prettier:1": {}
+    "ghcr.io/devcontainers-contrib/features/prettier:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   }
 }
