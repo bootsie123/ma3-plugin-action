@@ -54,7 +54,7 @@ name: MA3 Plugin Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
 
 permissions:
   contents: write
@@ -89,6 +89,7 @@ jobs:
           git commit -am "Automated: update MA3 plugin release file"
           git push
 ```
+
 </details>
 
 <details>
@@ -99,9 +100,9 @@ name: MA3 Plugin Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
     paths:
-      - "**/*.lua"
+      - '**/*.lua'
 
 permissions:
   contents: write
@@ -136,6 +137,7 @@ jobs:
           git commit -am "Automated: update MA3 plugin release file"
           git push
 ```
+
 </details>
 
 ## Contributing
