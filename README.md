@@ -46,6 +46,8 @@ A GitHub Action which auto generates XML files for grandMA3 plugins.
 
 ## Examples
 
+<!-- markdownlint-disable MD033 -->
+
 <details>
   <summary>Create plugin release file on push from the main branch</summary>
 
