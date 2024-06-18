@@ -44,6 +44,100 @@ A GitHub Action which auto generates XML files for grandMA3 plugins.
     generateArtifact: false
 ```
 
+## Examples
+
+<details>
+  <summary>Create plugin release file on push from the main branch</summary>
+
+```yaml
+name: MA3 Plugin Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: MA3 Plugin Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Release File
+        uses: bootsie123/ma3-plugin-action@v1
+        with:
+          plugins: >-
+            [
+              {
+                "name": "Test Plugin",
+                "version": "1.0.0",
+                "path": "test-plugin.lua"
+              }
+            ]
+          outputFile: ./test-plugin.xml
+
+      - name: Push Changes
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -am "Automated: update MA3 plugin release file"
+          git push
+```
+</details>
+
+<details>
+  <summary>Execute workflow only when plugins are modified</summary>
+
+```yaml
+name: MA3 Plugin Build
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*.lua"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: MA3 Plugin Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Release File
+        uses: bootsie123/ma3-plugin-action@v1
+        with:
+          plugins: >-
+            [
+              {
+                "name": "Test Plugin",
+                "version": "1.0.0",
+                "path": "test-plugin.lua"
+              }
+            ]
+          outputFile: ./test-plugin.xml
+
+      - name: Push Changes
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -am "Automated: update MA3 plugin release file"
+          git push
+```
+</details>
+
 ## Contributing
 
 Pull requests are welcome. Any changes are appreciated!
