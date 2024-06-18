@@ -1,8 +1,8 @@
 # MA3 Plugin Release (GitHub Action)
 
-[![GitHub Super-Linter](https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg)
-[![Check dist/](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml)
+[![Lint Codebase](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/linter.yml/badge.svg)](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/linter.yml)
+[![CI](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/ci.yml/badge.svg)](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/ci.yml)
+[![Check Dist](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/bootsie123/ma3-plugin-action/actions/workflows/check-dist.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
 A GitHub Action which auto generates XML files for grandMA3 plugins.
