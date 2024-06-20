@@ -142,6 +142,57 @@ jobs:
 
 </details>
 
+<details>
+  <summary>Execute workflow in PRs only when plugins are modified</summary>
+
+```yaml
+name: MA3 Plugin Build
+
+on:
+  pull_request_target:
+    paths:
+      - '**/*.lua'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: MA3 Plugin Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          fetch-depth: 0
+
+      - name: Build Release File
+        uses: bootsie123/ma3-plugin-action@v1
+        with:
+          plugins: >-
+            [
+              {
+                "name": "Test Plugin",
+                "version": "1.0.0",
+                "path": "test-plugin.lua"
+              }
+            ]
+          outputFile: ./test-plugin.xml
+
+      - name: Push Changes
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -am "Automated: update MA3 plugin release file"
+          git push
+```
+
+</details>
+
 ## Contributing
 
 Pull requests are welcome. Any changes are appreciated!
