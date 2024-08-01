@@ -5,7 +5,7 @@ import { webcrypto } from 'crypto'
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom'
 import xmlFormat from 'xml-formatter'
 
-const MA3_DATA_VERSION = '2.0.0.4'
+const MA3_DATA_VERSION = '2.0.2.0'
 const BLOCK_SIZE = 1024
 
 /**

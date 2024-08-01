@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GMA3 DataVersion="2.0.0.4">
+<GMA3 DataVersion="2.0.2.0">
     <UserPlugin Name="Test Plugin" Guid="C3 13 5E E5 B6 B5 10 02 15 9F 34 2F 14 B7 E5 8B" Version="1.0.0">
         <ComponentLua Guid="C3 13 5E E5 81 D3 10 02 EB 89 05 59 8F 53 BF 8B">
             <FileContent Size="2">
